@@ -3,7 +3,7 @@ import unittest
 from parameterized import parameterized
 from Utils.SeleniumUtil import SeleniumUtils
 import logging
-import Features.Enrollment as constants
+import TestBase.Constants as constants
 from Features.Enrollment.Locators import Locators
 from Features.Enrollment.Validators import Validators
 from time import sleep
