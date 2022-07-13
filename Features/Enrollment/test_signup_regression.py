@@ -18,7 +18,6 @@ class EnrollmentRegression(unittest.TestCase):
         self.selenium = SeleniumUtils()
         self.selenium.go_to_url(constants.SIGNUP_URL)
         self.selenium.maximize_window()
-        sleep(3)
 
     def fill_sign_up_form(self, full_name, email, password):
         self.selenium.fill_form(self.locators.full_name_field, str(full_name))
@@ -45,7 +44,6 @@ class EnrollmentRegression(unittest.TestCase):
     def matching_profile_email(self, expected_email):
         self.selenium.click_element(self.locators.user_gravatar)
         self.selenium.click_element(self.locators.edit_profile_link)
-        sleep(3)
         result = self.matching_string_in_page_source(expected_email)
         return result
 
@@ -65,7 +63,6 @@ class EnrollmentRegression(unittest.TestCase):
             if test_name == ('missing_full_name' or 'missing_password' or 'invalid_password_too_short'):
                 email = constants.EMAIL_PREFIX + str(random.randint(1, 10000000)) + constants.EMAIL_SUFFIX
             self.fill_sign_up_form(full_name, email, password)
-            sleep(5)
             expected_error_msg = constants.ERROR_MSG_MAP[test_name]
             page_source = self.selenium.get_page_source()
             result = Validators.validate_field_error_messages(expected_error_msg, page_source)
@@ -80,7 +77,6 @@ class EnrollmentRegression(unittest.TestCase):
         try:
             email = constants.EMAIL_PREFIX + str(random.randint(1, 100000)) + constants.EMAIL_SUFFIX
             self.fill_sign_up_form(full_name, email, password)
-            sleep(4)
             try:
                 self.selenium.find_element(self.locators.resend_confirm_email_button)
             except Exception as e:
@@ -103,7 +99,6 @@ class EnrollmentRegression(unittest.TestCase):
                 actions(self.locators.email_field)
             elif field == 'password':
                 actions(self.locators.full_name_field)
-            sleep(5)
             self.assrt.assertEquals(self.matching_string_in_page_source(constants.ERROR_MSG_MAP[test_name]), True)
         except Exception as e:
             logging.debug(e)
